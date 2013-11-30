@@ -1,4 +1,5 @@
 #JGDBConnection for JAVA
+###사용하기 전, 반드시 라이센스를 확인하세요
 
 #색인
 
