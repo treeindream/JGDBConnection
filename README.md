@@ -48,7 +48,7 @@ JGDBXMLQueryManager <-(추출 및 해석)- 질의문이 정의된 XML파일
 
 ###JGDBConnection 라이브러리는<br>
 [JDOM 라이브러리](http://www.jdom.org/)가 필요합니다.<br>
-[JGDataset 라이브러리]()가 필요합니다.<br><br>
+[JGDataset 라이브러리](https://github.com/kimbobv22/JGDataset)가 필요합니다.<br><br>
 
 ###[JGDBXMLQueryManager](#com.jg.db.xml.JGDBXMLQueryManager)이 질의문이 정의된 XML파일을 불러오기 위한 기본설정이 필요합니다.
 
@@ -104,8 +104,8 @@ __*키값이 중복되면 해석순서에 따라 병합됩니다.__
 JGDBXMLQueryManager.sharedManager().getQuerySet(String queryset키값).getQuery(query키값);
 JGDBXMLQueryManager.sharedManager().getQuery(String queryset키값, String query키값);
 </pre><br>
-필요에 따라 매개변수나 JGDataset의 열값을 매핑할 수 있습니다.<br>
-매핑형식은 <pre>#{매개변수명 or JGDataset의 열값,[true | false]}</pre>이며 두번째 인자는 생략이 가능합니다.<br>
+필요에 따라 매개변수나 [JGDataset](https://github.com/kimbobv22/JGDataset)의 열값을 매핑할 수 있습니다.<br>
+매핑형식은 <pre>#{매개변수명 or [JGDataset](https://github.com/kimbobv22/JGDataset)의 열값,[true | false]}</pre>이며 두번째 인자는 생략이 가능합니다.<br>
 질의문 생성 시 매핑형식의 두번째 인자에 따라 true 일 경우 PreparedStatement 형식에 따라 매핑되고, false 일 경우는 단순 변환매핑됩니다.
 
 	<query keyName="test">
@@ -115,7 +115,7 @@ JGDBXMLQueryManager.sharedManager().getQuery(String queryset키값, String query
 	AND   COL2 = #{testValue,false}
 	</query>
 <br><a name="howToWriteXMLCondition"></a>
-또한, 질의조절문을 사용하여 매개변수나 JGDataset의 열값에 따라 질의문 노출을 조절할 수 있습니다.<br>라이브러리에서 기본으로 제공하는 isnotnull, isequals 질의조절문이 있으며, 필요에 따라 사용자가 정의하여 사용할 수 있습니다.<br>질의조절문 정의방법은 [JGDBXMLQueryConditionDef](#com.jg.db.xml.cond.JGDBXMLQueryConditionDef)를 참조하세요.
+또한, 질의조절문을 사용하여 매개변수나 [JGDataset](https://github.com/kimbobv22/JGDataset)의 열값에 따라 질의문 노출을 조절할 수 있습니다.<br>라이브러리에서 기본으로 제공하는 isnotnull, isequals 질의조절문이 있으며, 필요에 따라 사용자가 정의하여 사용할 수 있습니다.<br>질의조절문 정의방법은 [JGDBXMLQueryConditionDef](#com.jg.db.xml.cond.JGDBXMLQueryConditionDef)를 참조하세요.
 
 	<query keyName="test">
 	SELECT * FROM 테이블
@@ -208,12 +208,12 @@ public void rollback() throws Exception;
 </pre
 
 모든 질의문은 PreparedStatement로 구성됩니다.<br>
-질의수행을 통하여 결과값을 JGDataset형식으로 얻을 수 있습니다.
+질의수행을 통하여 결과값을 [JGDataset](https://github.com/kimbobv22/JGDataset)형식으로 얻을 수 있습니다.
 
 <pre>
 //일반 질의수행
 public JGDataset executeQuery(String 질의문, Object[] 매개변수, int ResultSet형식, int resultSet동시실행형식) throws Exception;
-public JGDataset executeQuery(JGDBQuery 질의문, int ResultSet형식, int resultSet동시실행형식) throws Exception;
+public  executeQuery(JGDBQuery 질의문, int ResultSet형식, int resultSet동시실행형식) throws Exception;
 
 //일반 질의수행 후, 첫번째 행,열에 대한 값만 가져오기
 public Object executeQueryAndGetFirst(String 질의문, Object[] 매개변수, int ResultSet형식, int resultSet동시실행형식) throws Exception;
@@ -232,8 +232,8 @@ public boolean callProcedure(String 질의문, Object[] 매개변수, int result
 public boolean callProcedure(JGDBQuery 질의문, int resultSet형식, int resultSet동시실행형식) throws Exception;
 </pre>
 	
-또한, JGDataset을 이용하여 다중행에 대한 INSERT, UPDATE, DELETE 작업을 수행할 수 있습니다.<br>
-JGDataset의 행상태에 따라서 자동으로 질의문을 생성합니다.
+또한, [JGDataset](https://github.com/kimbobv22/JGDataset)을 이용하여 다중행에 대한 INSERT, UPDATE, DELETE 작업을 수행할 수 있습니다.<br>
+[JGDataset](https://github.com/kimbobv22/JGDataset)의 행상태에 따라서 자동으로 질의문을 생성합니다.
 
 <pre>
 public int executeUpdate(JGDataset 데이터셋, String 테이블명, boolean 모든행포함여부) throws Exception;
