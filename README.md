@@ -34,17 +34,15 @@
 JGDBConnection 라이브러리는 JAVA환경에서 보다 쉽게 DB작업을 수행하기 위한 라이브러리입니다.<br>또한 보다 쉽게 질의문을 관리, 사용할 수 있도록 [JGDBXMLQueryManager](#com.jg.db.xml.JGDBXMLQueryManager)를 제공하고 있습니다.<br>
 
 ###JGDBConnection 라이브러리 대략적 관계구조
-<pre>
-JGDBConnection <-(참조)- JGDBConfig
-	- JGDBQuery <-(해석)- JGDBParameter
-	
-JGDBXMLQueryManager <-(추출 및 해석)- 질의문이 정의된 XML파일
-	- JGDBXMLQuerySet
-		- JGDBXMLQuery -(생성)-> JGDBQuery		
-</pre>
+
+	JGDBConnection <-(참조)- JGDBConfig
+		- JGDBQuery <-(해석)- JGDBParameter
+		
+	JGDBXMLQueryManager <-(추출 및 해석)- 질의문이 정의된 XML파일
+		- JGDBXMLQuerySet
+			- JGDBXMLQuery -(생성)-> JGDBQuery		
 
 <a name="environment"></a>
-
 ##라이브러리 사용을 위한 환경
 
 ###JGDBConnection 라이브러리는<br>
@@ -53,9 +51,8 @@ JGDBXMLQueryManager <-(추출 및 해석)- 질의문이 정의된 XML파일
 
 ###[JGDBXMLQueryManager](#com.jg.db.xml.JGDBXMLQueryManager)이 질의문이 정의된 XML파일을 불러오기 위한 기본설정이 필요합니다.
 
-<pre>
-JGDBXMLQueryManager.setXMLDirectoryPath(XML폴더뿌리경로);
-</pre>
+
+	JGDBXMLQueryManager.setXMLDirectoryPath(XML폴더뿌리경로);
 
 만약 위에 과정이 이루어지지 않으면 [JGDBXMLQueryManager](#com.jg.db.xml.JGDBXMLQueryManager)에 대한 라이브러리가 원활하게 구동하지 않을 수 있습니다.
 
@@ -92,21 +89,18 @@ JGDBXMLQueryManager.setXMLDirectoryPath(XML폴더뿌리경로);
 	
 뿌리노드(이하 queryset)에 반드시 keyName 특성값이 정의되어야 합니다.<br>queryset의 keyName 특성값은 [JGDBXMLQuerySet](#com.jg.db.xml.JGDBXMLQuerySet)의 키값이 됩니다.<br>__*키값이 중복되면 해석순서에 따라 병합됩니다.__<br>
 
-<pre>
-//queryset 호출방법
-JGDBXMLQueryManager.sharedManager().getQuerySet(String queryset키값);
-</pre>
+	//queryset 호출방법
+	JGDBXMLQueryManager.sharedManager().getQuerySet(String queryset키값);
 
 quackuery로 작성이 가능하며 각 query 또한 keyName 특성값이 정의되어야 합니다.<br>query의 keyName 특성값은 [JGDBXMLQuery](#com.jg.db.xml.JGDBXMLQuery)의 키값이 됩니다.<br>
 __*키값이 중복되면 해석순서에 따라 병합됩니다.__
 
-<pre>
-//query 호출방법
-JGDBXMLQueryManager.sharedManager().getQuerySet(String queryset키값).getQuery(query키값);
-JGDBXMLQueryManager.sharedManager().getQuery(String queryset키값, String query키값);
-</pre><br>
+
+	//query 호출방법
+	JGDBXMLQueryManager.sharedManager().getQuerySet(String queryset키값).getQuery(query키값);
+	JGDBXMLQueryManager.sharedManager().getQuery(String queryset키값, String query키값);
 필요에 따라 매개변수나 [JGDataset](https://github.com/kimbobv22/JGDataset)의 열값을 매핑할 수 있습니다.<br>
-매핑형식은 <pre>#{매개변수명 or [JGDataset](https://github.com/kimbobv22/JGDataset)의 열값,[true | false]}</pre>이며 두번째 인자는 생략이 가능합니다.<br>
+매핑형식은 <code>#{매개변수명 or [JGDataset](https://github.com/kimbobv22/JGDataset)의 열값,[true | false]}</code>이며 두번째 인자는 생략이 가능합니다.<br>
 질의문 생성 시 매핑형식의 두번째 인자에 따라 true 일 경우 PreparedStatement 형식에 따라 매핑되고, false 일 경우는 단순 변환매핑됩니다.
 
 	<query keyName="test">
@@ -115,7 +109,8 @@ JGDBXMLQueryManager.sharedManager().getQuery(String queryset키값, String query
 	AND   COL1 = #{testValue}
 	AND   COL2 = #{testValue,false}
 	</query>
-<br><a name="howToWriteXMLCondition"></a>
+	
+<a name="howToWriteXMLCondition"></a>
 또한, 질의조절문을 사용하여 매개변수나 [JGDataset](https://github.com/kimbobv22/JGDataset)의 열값에 따라 질의문 노출을 조절할 수 있습니다.<br>라이브러리에서 기본으로 제공하는 isnotnull, isequals 질의조절문이 있으며, 필요에 따라 사용자가 정의하여 사용할 수 있습니다.<br>질의조절문 정의방법은 [JGDBXMLQueryConditionDef](#com.jg.db.xml.cond.JGDBXMLQueryConditionDef)를 참조하세요.
 
 	<query keyName="test">
@@ -140,13 +135,14 @@ JGDBXMLQueryManager.sharedManager().getQuery(String queryset키값, String query
 	
 필요에 따라 특정 XML질의문을 분기하여 구문으로 포함시킬 수 있습니다.
 
-<pre>
-//전체 queryset을 대상으로 검색
-#imp{queryset키값,query키값}
+#### 
+	//전체 queryset을 대상으로 검색
+	#imp{queryset키값,query키값}
 
-//현재 queryset 대상으로만 검색
-#imp{query키값}
-</pre>
+	//현재 queryset 대상으로만 검색
+	#imp{query키값}
+
+#### 
 	
 	<queryset keyName="test">
 		
@@ -183,9 +179,7 @@ JGDBXMLQueryManager.sharedManager().getQuery(String queryset키값, String query
 
 ###생성자
 
-<pre>
-public JGDBConfig(String jdbc클래스명, String DB주소, String 사용자명, String 사용자암호, String 케릭터셋);
-</pre>
+	public JGDBConfig(String jdbc클래스명, String DB주소, String 사용자명, String 사용자암호, String 케릭터셋);
 
 <a name="com.jg.db.JGDBConnection"></a>
 ##com.jg.db.JGDBConnection
@@ -194,51 +188,44 @@ DB에 접속하여 실제 질의수행 및 결과처리를 담당하는 클래�
 
 ###생성자
 
-<pre>
-public JGDBConnection(JGDBConfig DB설정) throws Exception;
-</pre>
+	public JGDBConnection(JGDBConfig DB설정) throws Exception;
 
 ###주요함수
 
 DB 작업을 위한 기본적인 함수를 제공합니다.
 
-<pre>
-public Connection getConnection();
-public void commit() throws Exception;
-public void rollback() throws Exception;
-</pre
+
+	public Connection getConnection();
+	public void commit() throws Exception;
+	public void rollback() throws Exception;
 
 모든 질의문은 PreparedStatement로 구성됩니다.<br>
 질의수행을 통하여 결과값을 [JGDataset](https://github.com/kimbobv22/JGDataset)형식으로 얻을 수 있습니다.
 
-<pre>
-//일반 질의수행
-public JGDataset executeQuery(String 질의문, Object[] 매개변수, int ResultSet형식, int resultSet동시실행형식) throws Exception;
-public  executeQuery(JGDBQuery 질의문, int ResultSet형식, int resultSet동시실행형식) throws Exception;
 
-//일반 질의수행 후, 첫번째 행,열에 대한 값만 가져오기
-public Object executeQueryAndGetFirst(String 질의문, Object[] 매개변수, int ResultSet형식, int resultSet동시실행형식) throws Exception;
-public Object executeQueryAndGetFirst(JGDBQuery 질의문, int ResultSet형식, int resultSet동시실행형식) throws Exception;
-</pre>
+	//일반 질의수행
+	public JGDataset executeQuery(String 질의문, Object[] 매개변수, int ResultSet형식, int resultSet동시실행형식) throws Exception;
+	public  executeQuery(JGDBQuery 질의문, int ResultSet형식, int resultSet동시실행형식) throws Exception;
+	
+	//일반 질의수행 후, 첫번째 행,열에 대한 값만 가져오기
+	public Object executeQueryAndGetFirst(String 질의문, Object[] 매개변수, int ResultSet형식, int resultSet동시실행형식) throws Exception;
+	public Object executeQueryAndGetFirst(JGDBQuery 질의문, int ResultSet형식, int resultSet동시실행형식) throws Exception;
 	
 질의을 통하여 특정 작업을 수행합니다.
 
-<pre>
-//일반 작업수행
-public int executeUpdate(String 질의문, Object[] 매개변수) throws Exception;
-public int executeUpdate(JGDBQuery 질의문) throws Exception;
 
-//프로시져 호출
-public boolean callProcedure(String 질의문, Object[] 매개변수, int resultSet형식, int resultSet동시실행형식) throws Exception;
-public boolean callProcedure(JGDBQuery 질의문, int resultSet형식, int resultSet동시실행형식) throws Exception;
-</pre>
+	//일반 작업수행
+	public int executeUpdate(String 질의문, Object[] 매개변수) throws Exception;
+	public int executeUpdate(JGDBQuery 질의문) throws Exception;
+	
+	//프로시져 호출
+	public boolean callProcedure(String 질의문, Object[] 매개변수, int resultSet형식, int resultSet동시실행형식) throws Exception;
+	public boolean callProcedure(JGDBQuery 질의문, int resultSet형식, int resultSet동시실행형식) throws Exception;
 	
 또한, [JGDataset](https://github.com/kimbobv22/JGDataset)을 이용하여 다중행에 대한 INSERT, UPDATE, DELETE 작업을 수행할 수 있습니다.<br>
 [JGDataset](https://github.com/kimbobv22/JGDataset)의 행상태에 따라서 자동으로 질의문을 생성합니다.
 
-<pre>
-public int executeUpdate(JGDataset 데이터셋, String 테이블명, boolean 모든행포함여부) throws Exception;
-</pre>
+	public int executeUpdate(JGDataset 데이터셋, String 테이블명, boolean 모든행포함여부) throws Exception;
 
 <a name="com.jg.db.JGDBKeyword"></a>
 ##com.jg.db.JGDBKeyword
@@ -252,55 +239,50 @@ JGDBConnection 라이브러리에서 이용하는 키워드가 정의되어 있�
 
 ###생성자
 
-<pre>
-public JGDBParameter(String 대상명(테이블명));
-</pre>
+
+	public JGDBParameter(String 대상명(테이블명));
 	
 ###주요함수
 
 기본적으로 값매개변수를 추가,삭제,가져오기 할 수 있습니다.
 
-<pre>
-//추가
-public void addValue(JGDBParameterValue 매개변수, int 색인);
-public void addValue(JGDBParameterValue 매개변수, int 색인);
-public JGDBParameterValue addValue(String 열명, Object 값, int 색인);
-
-//삭제
-public void removeValueAtIndex(int 색인);
-public void removeValue(JGDBParameterValue 매개변수);
-public void removeValueAtColumn(String 열명);
-
-//가져오기
-public JGDBParameterValue getValueAtIndex(int 색인);
-public JGDBParameterValue getValueAtColumn(String 열명);
-
-//색인검색
-public int indexOfValue(JGDBParameterValue 매개변수);
-public int indexOfValueWithColumn(String 열명);
-</pre>
+	//추가
+	public void addValue(JGDBParameterValue 매개변수, int 색인);
+	public void addValue(JGDBParameterValue 매개변수, int 색인);
+	public JGDBParameterValue addValue(String 열명, Object 값, int 색인);
+	
+	//삭제
+	public void removeValueAtIndex(int 색인);
+	public void removeValue(JGDBParameterValue 매개변수);
+	public void removeValueAtColumn(String 열명);
+	
+	//가져오기
+	public JGDBParameterValue getValueAtIndex(int 색인);
+	public JGDBParameterValue getValueAtColumn(String 열명);
+	
+	//색인검색
+	public int indexOfValue(JGDBParameterValue 매개변수);
+	public int indexOfValueWithColumn(String 열명);
 	
 [JGDBQuery](#com.jg.db.vo.JGDBQuery)활용을 위한 키매개변수를 추가,삭제,가져오기 할 수 있습니다.
 
-<pre>
-//추가
-public void addKey(JGDBParameterKey 매개변수, int 색인);
-public void addKey(JGDBParameterKey 매개변수, int 색인);
-public JGDBParameterKey addKey(String 열명, Object 값, int 색인);
-
-//삭제
-public void removeKeyAtIndex(int 색인);
-public void removeKey(JGDBParameterKey 매개변수);
-public void removeKeyAtColumn(String 열명);
-
-//가져오기
-public JGDBParameterKey getKeyAtIndex(int 색인);
-public JGDBParameterKey getKeyAtColumn(String 열명);
-
-//색인검색
-public int indexOfKey(JGDBParameterKey 매개변수);
-public int indexOfKeyWithColumn(String 열명);
-</pre>
+	//추가
+	public void addKey(JGDBParameterKey 매개변수, int 색인);
+	public void addKey(JGDBParameterKey 매개변수, int 색인);
+	public JGDBParameterKey addKey(String 열명, Object 값, int 색인);
+	
+	//삭제
+	public void removeKeyAtIndex(int 색인);
+	public void removeKey(JGDBParameterKey 매개변수);
+	public void removeKeyAtColumn(String 열명);
+	
+	//가져오기
+	public JGDBParameterKey getKeyAtIndex(int 색인);
+	public JGDBParameterKey getKeyAtColumn(String 열명);
+	
+	//색인검색
+	public int indexOfKey(JGDBParameterKey 매개변수);
+	public int indexOfKeyWithColumn(String 열명);
 	
 <a name="com.jg.db.vo.JGDBQuery"></a>
 ##com.jg.db.vo.JGDBQuery
@@ -308,37 +290,32 @@ public int indexOfKeyWithColumn(String 열명);
 질의수행을 위한 클래스입니다. <br>
 
 ###생성자 
-<pre>
-public JGDBQuery();
-</pre>
+
+	public JGDBQuery();
 
 ###주요함수
 
 기본적으로 쿼리를 정의할 수 있습니다.
-
-<pre>
-public void setQuery(String 질의문);
-public void addParameter(Object 매개변수);
-</pre>
+	
+	public void setQuery(String 질의문);
+	public void addParameter(Object 매개변수);
 
 필요에 따라 [JGDBParameter](#com.jg.db.vo.JGDBParameter)를 이용하여 질의를 자동정의 할 수 있습니다.
 
-<pre>
-//SELECT
-public void fillQueryForSELECT(JGDBParameter 매개변수);
-
-//UPDATE
-public void fillQueryForUPDATE(JGDBParameter 매개변수);
-
-//INSERT
-public void fillQueryForINSERT(JGDBParameter 매개변수);
-
-//DELETE
-public void fillQueryForDELETE(JGDBParameter parameter_);
-
-//PROCEDURE
-public void fillQueryForPROCEDURE(JGDBParameter parameter_);
-</pre>
+	//SELECT
+	public void fillQueryForSELECT(JGDBParameter 매개변수);
+	
+	//UPDATE
+	public void fillQueryForUPDATE(JGDBParameter 매개변수);
+	
+	//INSERT
+	public void fillQueryForINSERT(JGDBParameter 매개변수);
+	
+	//DELETE
+	public void fillQueryForDELETE(JGDBParameter parameter_);
+	
+	//PROCEDURE
+	public void fillQueryForPROCEDURE(JGDBParameter parameter_);
 
 <a name="com.jg.db.xml.JGDBXMLQueryManager"></a>
 ##com.jg.db.xml.JGDBXMLQueryManager
@@ -349,21 +326,20 @@ public void fillQueryForPROCEDURE(JGDBParameter parameter_);
 ###생성자
 
 복수로 생성할 수 없으며 하나의 공유된 인스턴스로 사용이 가능합니다.
-<pre>
-static public JGDBXMLQueryManager sharedManager();
-</pre>
+
+	static public JGDBXMLQueryManager sharedManager();
+
 
 ###주요함수
 
 기본적으로 XML질의집합이나 XML질의를 가져올 수 있습니다.
 
-<pre>
-//XML질의집합 가져오기
-public JGDBXMLQuery getQuerySet(String queryset키값);
 
-//XML질의 가져오기
-public JGDBXMLQuery getQuery(String queryset키값, String query키값);
-</pre>
+	//XML질의집합 가져오기
+	public JGDBXMLQuery getQuerySet(String queryset키값);
+	
+	//XML질의 가져오기
+	public JGDBXMLQuery getQuery(String queryset키값, String query키값);
 
 ###전용(Redirect)함수
 
@@ -387,13 +363,12 @@ XML파일을 추출, 해석으로 자동생성되며 외부에서 추가할 수 
 
 ###주요함수
 
-<pre>
-public JGDBXMLQuery getQuery(int 색인);
-public JGDBXMLQuery getQuery(String 키값);
 
-//색인검색
-public int indexOfQuery(String 키값);
-</pre>
+	public JGDBXMLQuery getQuery(int 색인);
+	public JGDBXMLQuery getQuery(String 키값);
+
+	//색인검색
+	public int indexOfQuery(String 키값);
 
 <a name="com.jg.db.xml.JGDBXMLQuery"></a>
 ##com.jg.db.xml.JGDBXMLQuery
@@ -407,13 +382,12 @@ XML파일 추출을, 해석으로 자동생성되며 외부에서 추가할 수 
 ###주요함수
 
 JGDataset을 이용하여 XML질의를 질의로 생성할 수 있습니다.
-<pre>
-public JGDBQuery createQuery(JGDataset 데이터셋, int 행색인) throws Exception;
-public JGDBQuery createQuery(JGDataset 데이터셋) throws Exception;
-public JGDBQuery createQuery(JGDataset 데이터셋) throws Exception;
-public JGDBQuery createQuery(String xml질의집합키, String xml질의키, Object[] 열명과 열값, String[] 키열명) throws Exception;
-public JGDBQuery createQuery(String xml질의집합키, String xml질의키, Object[] 열명과 열값) throws Exception;
-</pre>
+
+	public JGDBQuery createQuery(JGDataset 데이터셋, int 행색인) throws Exception;
+	public JGDBQuery createQuery(JGDataset 데이터셋) throws Exception;
+	public JGDBQuery createQuery(JGDataset 데이터셋) throws Exception;
+	public JGDBQuery createQuery(String xml질의집합키, String xml질의키, Object[] 열명과 열값, String[] 키열명) throws Exception;
+	public JGDBQuery createQuery(String xml질의집합키, String xml질의키, Object[] 열명과 열값) throws Exception;
 
 생성예제입니다.
 
@@ -466,7 +440,7 @@ public JGDBQuery createQuery(String xml질의집합키, String xml질의키, Obj
 	
 	[parameters]
 	testValue1, testValue1, testValue1
-</pre>
+
 
 <a name="com.jg.db.xml.cond.JGDBXMLQueryConditionDef"></a>
 ##com.jg.db.xml.cond.JGDBXMLQueryConditionDef
@@ -475,15 +449,15 @@ public JGDBQuery createQuery(String xml질의집합키, String xml질의키, Obj
 
 ###등록하기
 
-<pre>
-JGDBXMLQueryManager.sharedManager().putConditionDef(키값(XML조건절노드명), new JGDBXMLQueryConditionDef(){
+
+	JGDBXMLQueryManager.sharedManager().putConditionDef(키값(XML조건절노드명), new JGDBXMLQueryConditionDef(){
 	
-	public boolean acceptConditionStatement(Element 해당XML조건절노드, JGDataset 데이타셋, int 행색인) throws Exception{
-		return false;
-	}
+		public boolean acceptConditionStatement(Element 해당XML조건절노드, JGDataset 데이타셋, int 행색인) throws Exception{
+			return false;
+		}
 	
-});
-</pre>
+	});
+
 
 <a name="com.jg.db.xml.cond.JGDBXMLQueryConditionIsEquals"></a>
 ##com.jg.db.xml.cond.JGDBXMLQueryConditionIsEquals<br>com.jg.db.xml.cond.JGDBXMLQueryConditionIsNotNull
